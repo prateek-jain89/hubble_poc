@@ -29,7 +29,7 @@ class home(APIView):
         time.sleep(2)
 
         span.finish()
-        return Response({'data': 'post'})
+        return JsonResponse({'data': 'post'})
     # return JsonResponse({'status': 'success'})
 
 class UserViewSet(viewsets.ModelViewSet):
