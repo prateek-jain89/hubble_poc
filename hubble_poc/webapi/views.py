@@ -18,12 +18,13 @@ class home(APIView):
         data = request.data
         para = data['paragraph_details']
         parent_span_details = data.get('parent_span_details')
+        print({'parent_span_details': parent_span_details})
         parent_span = None
         if parent_span_details:
             parent_span_id = parent_span_details.get("span_id")
             parent_trace_id = parent_span_details.get("trace_id")
             parent_span = context.Context(span_id=parent_span_id, trace_id=parent_trace_id)
-
+        print(parent_span)
         span = tracer.start_span(
             name='post_method', service='django_api', child_of=parent_span, activate=True
             )
