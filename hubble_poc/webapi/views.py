@@ -16,24 +16,21 @@ class home(APIView):
 
     def post(self, request):
         data = request.data
-        print(data)
-        # para = data['paragraph_details']
-        # parent_span_details = data.get('parent_span_details')
-        # print({'parent_span_details': parent_span_details})
-        # parent_span = None
-        # if parent_span_details:
-        #     parent_span_id = parent_span_details.get("span_id")
-        #     parent_trace_id = parent_span_details.get("trace_id")
-        #     parent_span = context.Context(span_id=parent_span_id, trace_id=parent_trace_id)
-        # print(parent_span)
-        # span = tracer.start_span(
-        #     name='post_method', service='django_api', child_of=parent_span, activate=True
-        #     )
-        # time.sleep(2)
-        #
-        # span.finish()
-        return Response({'status': True})
-        # return Response({'data': data.get('parent_span_details')})
+        para = data['paragraph_details']
+        parent_span_details = data.get('parent_span_details')
+        parent_span = None
+        if parent_span_details:
+            parent_span_id = parent_span_details.get("span_id")
+            parent_trace_id = parent_span_details.get("trace_id")
+            parent_span = context.Context(span_id=parent_span_id, trace_id=parent_trace_id)
+
+        span = tracer.start_span(
+            name='post_method', service='django_api', child_of=parent_span, activate=True
+            )
+        time.sleep(2)
+
+        span.finish()
+        return Response({'data': 'post'})
     # return JsonResponse({'status': 'success'})
 
 class UserViewSet(viewsets.ModelViewSet):
