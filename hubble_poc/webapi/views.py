@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 import time
 from ddtrace import tracer, patch_all, context
-
+tracer.configure('test.datadog.service.io')
 class home(APIView):
 
     def get(self, request):
@@ -23,7 +23,6 @@ class home(APIView):
             parent_span_id = parent_span_details.get("span_id")
             parent_trace_id = parent_span_details.get("trace_id")
             parent_span = context.Context(span_id=parent_span_id, trace_id=parent_trace_id)
-
         span = tracer.start_span(
             name='post_method', service='django_api', child_of=parent_span, activate=True
             )
